@@ -3,7 +3,7 @@ node {
         buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5'))
     ])
 
-    image = "agrisin/node-app"
+    image = "agrisin/node-rest-api"
     latest = "latest"
 
     stage('checkout') {
