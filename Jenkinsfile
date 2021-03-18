@@ -1,15 +1,18 @@
-pipeline {
-    agent {
-        docker {
-            image 'node:14-alpine' 
-            args '-p 3000:3000' 
-        }
+node {    
+    image = "agrisin/node-app"
+    latest = "latest"
+
+    stage('checkout') {
+        checkout scm
     }
-    stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install' 
-            }
+
+    stage('build image') {
+        app = docker.build(image)
+    }
+  
+    stage('push image') {
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push(latest)
         }
     }
 }
