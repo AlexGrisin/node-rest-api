@@ -1,4 +1,8 @@
 node {    
+    properties([
+        buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '5', numToKeepStr: '5'))
+    ])
+
     image = "agrisin/node-app"
     latest = "latest"
 
