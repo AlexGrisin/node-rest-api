@@ -6,12 +6,14 @@
   "scripts": {
     "code:format": "prettier --write .",
     "dev": "nodemon index.js",
+    "mongo": "nodemon indexmongo.js",
     "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.12.2",
     "nodemon": "^2.0.7"
   }
 }
