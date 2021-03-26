@@ -6,7 +6,6 @@
   "scripts": {
     "code:format": "prettier --write .",
     "dev": "nodemon index.js",
-    "mongo": "nodemon indexmongo.js",
     "start": "node index.js"
   },
   "author": "",
