@@ -6,11 +6,12 @@ const mongoose = require("mongoose");
 const app = express();
 
 const CONNECTION_URL = "mongodb://localhost/resthub";
+const PORT = 8000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once("open", () => {
-  console.log("conneted to database");
+  console.log(`👾 Conneted to database: ${CONNECTION_URL}`);
 });
 
 //This route will be used as an endpoint to interact with Graphql,
@@ -21,10 +22,10 @@ app.use(
     schema,
     //directing express-graphql to use graphiql when goto '/graphql' address in the browser
     //which provides an interface to make GraphQl queries
-    graphiql: true,
+    graphiql: false,
   })
 );
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`🚀 Listening on port: ${PORT}`);
 });
