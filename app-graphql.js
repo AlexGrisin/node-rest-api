@@ -1,4 +1,5 @@
 var express = require("express");
+var cors = require("cors");
 var { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
@@ -13,6 +14,8 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 mongoose.connection.once("open", () => {
   console.log(`👾 Conneted to database: ${CONNECTION_URL}`);
 });
+
+app.use(cors());
 
 //This route will be used as an endpoint to interact with Graphql,
 //All queries will go through this route.

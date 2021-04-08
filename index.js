@@ -1,8 +1,9 @@
 const express = require("express");
+var cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectID;
 
-// const CONNECTION_URL = 'mongodb://localhost/resthub';
+// const CONNECTION_URL = "mongodb://localhost/resthub";
 const CONNECTION_URL = "mongodb://87.251.71.72:27017";
 
 const DATABASE_NAME = "test";
@@ -10,6 +11,7 @@ const PORT = 8000;
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(
   express.urlencoded({
