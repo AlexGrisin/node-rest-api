@@ -1,64 +1,35 @@
-const express = require("express");
+var express = require("express");
 var cors = require("cors");
-const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectID;
-
-// const CONNECTION_URL = "mongodb://localhost/resthub";
-const CONNECTION_URL = "mongodb://87.251.71.72:27017";
-
-const DATABASE_NAME = "test";
-const PORT = 8000;
+var { graphqlHTTP } = require("express-graphql");
+const schema = require("./schema/schema");
+const mongoose = require("mongoose");
 
 const app = express();
 
+// const CONNECTION_URL = "mongodb://localhost/resthub";
+const CONNECTION_URL = "mongodb://87.251.71.72:27017";
+const PORT = 8000;
+
+mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+
+mongoose.connection.once("open", () => {
+  console.log(`👾 Conneted to database: ${CONNECTION_URL}`);
+});
+
 app.use(cors());
-app.use(express.json());
+
+//This route will be used as an endpoint to interact with Graphql,
+//All queries will go through this route.
 app.use(
-  express.urlencoded({
-    extended: true,
+  "/graphql",
+  graphqlHTTP({
+    schema,
+    //directing express-graphql to use graphiql when goto '/graphql' address in the browser
+    //which provides an interface to make GraphQl queries
+    graphiql: false,
   })
 );
 
 app.listen(PORT, () => {
-  MongoClient.connect(
-    CONNECTION_URL,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    (error, client) => {
-      if (error) {
-        throw error;
-      }
-      database = client.db(DATABASE_NAME);
-      collection = database.collection("users");
-      console.log("Connected to `" + DATABASE_NAME + "`!");
-    }
-  );
-});
-
-app.get("/", (req, res) => res.send("Hello World!"));
-
-app.get("/users", (request, response) => {
-  collection.find({}).toArray((error, result) => {
-    if (error) {
-      return response.status(500).send(error);
-    }
-    response.send(result);
-  });
-});
-
-app.get("/users/:id", (request, response) => {
-  collection.findOne({ _id: new ObjectId(request.params.id) }, (error, result) => {
-    if (error) {
-      return response.status(500).send(error);
-    }
-    response.send(result);
-  });
-});
-
-app.post("/users/add", (request, response) => {
-  collection.insert(request.body, (error, result) => {
-    if (error) {
-      return response.status(500).send(error);
-    }
-    response.send(result.result);
-  });
+  console.log(`🚀 Listening on port: ${PORT}`);
 });
