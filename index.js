@@ -26,7 +26,7 @@ app.use(
     schema,
     //directing express-graphql to use graphiql when goto '/graphql' address in the browser
     //which provides an interface to make GraphQl queries
-    graphiql: false,
+    graphiql: true,
   })
 );
 
