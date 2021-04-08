@@ -2,34 +2,20 @@ var express = require("express");
 var cors = require("cors");
 var { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
+const env = require("./config/env");
 const mongoose = require("mongoose");
 
-const app = express();
-
-// const CONNECTION_URL = "mongodb://localhost/resthub";
-const CONNECTION_URL = "mongodb://87.251.71.72:27017";
-const PORT = 8000;
+const PORT = env.app.port;
+const CONNECTION_URL = env.db.connection_url;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-
 mongoose.connection.once("open", () => {
   console.log(`👾 Conneted to database: ${CONNECTION_URL}`);
 });
 
+const app = express();
 app.use(cors());
+app.use("/graphql", graphqlHTTP({ schema, graphiql: false }));
+app.use("/graphiql", graphqlHTTP({ schema, graphiql: true }));
 
-//This route will be used as an endpoint to interact with Graphql,
-//All queries will go through this route.
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema,
-    //directing express-graphql to use graphiql when goto '/graphql' address in the browser
-    //which provides an interface to make GraphQl queries
-    graphiql: true,
-  })
-);
-
-app.listen(PORT, () => {
-  console.log(`🚀 Listening on port: ${PORT}`);
-});
+app.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:${PORT}`));

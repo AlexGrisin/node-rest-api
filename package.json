@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "code:format": "prettier --write .",
-    "dev": "nodemon index.js",
-    "start-graphql-app": "nodemon app-graphql.js",
-    "start": "node index.js"
+    "dev": "NODE_ENV=dev nodemon index.js",
+    "local": "NODE_ENV=local nodemon index.js",
+    "start": "NODE_ENV=dev node index.js"
   },
   "author": "",
   "license": "ISC",
