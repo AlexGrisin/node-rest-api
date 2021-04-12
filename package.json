@@ -7,7 +7,6 @@
     "code:format": "prettier --write .",
     "dev": "NODE_ENV=dev nodemon index.js",
     "local": "NODE_ENV=local nodemon index.js",
-    "apollo": "NODE_ENV=local nodemon index_apollo.js",
     "start": "NODE_ENV=dev node index.js"
   },
   "author": "",

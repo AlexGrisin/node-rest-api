@@ -1,9 +1,9 @@
 var express = require("express");
 var cors = require("cors");
-const { ApolloServer } = require("apollo-server-express");
-const mongoose = require("mongoose");
+var { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
 const env = require("./config/env");
+const mongoose = require("mongoose");
 
 const PORT = env.app.port;
 
@@ -19,13 +19,7 @@ mongoose.connection.once("open", () => {
 
 const app = express();
 app.use(cors());
+app.use("/graphql", graphqlHTTP({ schema, graphiql: false }));
+app.use("/graphiql", graphqlHTTP({ schema, graphiql: true }));
 
-const server = new ApolloServer({
-  schema: schema,
-});
-
-server.applyMiddleware({ app });
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running at http://localhost:${PORT}`);
-});
+app.listen({ port: PORT }, () => console.log(`🚀 Server ready at http://localhost:${PORT}`));
